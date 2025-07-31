@@ -39,6 +39,10 @@ require("simple_note").setup()
 end,
 }
 ```
+## Navigation
+
+- exit simple now with <esc>, q or Q when in Normal mode
+- Launch Simple note using <leader>ns
 
 ## Customisation
 
