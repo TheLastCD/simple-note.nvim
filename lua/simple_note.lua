@@ -75,7 +75,7 @@ end
 
 -- Default config
 local default_config = {
-  hotkey = "<leader>Ss", -- Shift+s in normal mode
+  hotkey = "<leader>ns",
 }
 
 function M.setup(user_config)
