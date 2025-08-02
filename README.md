@@ -9,6 +9,7 @@ Simple Note is a compact and small note taking popup window for neovim
 - Quick Note taking
 - Auto saving
 - Unobtrussive 
+- Supports Markdown 
 
 ## Install
 
@@ -41,7 +42,7 @@ end,
 ```
 ## Navigation
 
-- exit simple now with <esc>, q or Q when in Normal mode
+- exit simple note with <esc>, q or Q when in Normal mode
 - Launch Simple note using <leader>ns
 
 ## Customisation
