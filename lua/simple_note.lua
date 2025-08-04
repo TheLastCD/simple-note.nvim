@@ -2,6 +2,25 @@ local api = vim.api
 
 local M = {}
 
+-- Default config
+local default_config = {
+  hotkey = "<leader>ns",
+  window = {
+    border = "rounded",
+    width = 0.6,
+    height = 0.4,
+    anchor = "NW",
+  },
+}
+local config = default_config
+
+function M.setup(user_config)
+  config = vim.tbl_deep_extend("force", {}, default_config, user_config or {})
+  api.nvim_create_user_command("SimpleNote", M.open_note_popup, {})
+  -- Map the hotkey in normal mode, remappable by user
+  vim.keymap.set('n', config.hotkey, M.open_note_popup, { noremap=true, silent=true, desc="Open simple-note popup" })
+end
+
 local function save_and_close(buf, win, note_path)
   if api.nvim_buf_is_valid(buf) then
     local lines = api.nvim_buf_get_lines(buf, 0, -1, false)
@@ -42,11 +61,19 @@ local function read_file_lines(path)
 end
 
 function M.open_note_popup()
+  local border_type = config.window and config.window.border or "rounded"
+  local width_scale = config.window and config.window.width or 0.6
+  local height_scale = config.window and config.window.height or 0.4
+  local anchor = config.window and config.window.anchor or "NW"
+
+
   local buf = api.nvim_create_buf(false, true)
-  local width = math.floor(vim.o.columns * 0.6)
-  local height = math.floor(vim.o.lines * 0.4)
+  local width = math.floor(vim.o.columns * width_scale)
+  local height = math.floor(vim.o.lines * height_scale)
   local row = math.floor((vim.o.lines - height) / 2)
   local col = math.floor((vim.o.columns - width) / 2)
+
+
 
   local win = api.nvim_open_win(buf, true, {
     relative = "editor",
@@ -55,9 +82,10 @@ function M.open_note_popup()
     width = width,
     height = height,
     style = "minimal",
-    border = "rounded",
+    border = border_type,
+    anchor = anchor,
   })
-
+  vim.bo[buf].filetype = "markdown"
   local note_path = vim.fn.stdpath("data") .. "/notes.md"
   if file_exists(note_path) then
     local lines = read_file_lines(note_path)
@@ -73,17 +101,7 @@ function M.open_note_popup()
   end
 end
 
--- Default config
-local default_config = {
-  hotkey = "<leader>ns",
-}
 
-function M.setup(user_config)
-  local config = vim.tbl_deep_extend("force", {}, default_config, user_config or {})
-  api.nvim_create_user_command("NotePopup", M.open_note_popup, {})
-  -- Map the hotkey in normal mode, remappable by user
-  vim.keymap.set('n', config.hotkey, M.open_note_popup, { noremap=true, silent=true, desc="Open simple-note popup" })
-end
 
 return M
 
