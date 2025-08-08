@@ -2,7 +2,8 @@
 
 ## Introduction
 
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/e6f00018-e4a3-4ab0-bd13-dd802b9b93eb" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/a3a99737-ace3-49ae-86bd-92100d3a179f" />
+
 
 Simple Note is a compact and small note taking popup window for neovim.
 
@@ -51,11 +52,25 @@ end,
 
 ## Customisation
 
-- Currently Simple Note only supports Custom Keybinds
+- Simple Note supports changes to:
+  - Hotkey: default ```<leader> ns```
+  - Window:
+    - Border
+    - Width
+    - Height
+    - Anchor
+
 ```
 require("simple_note").setup(
 {
-  hotkey = "<leader>ns"
+  hotkey = "<leader>ns",
+  window = {
+    border = "rounded",
+    width = 0.6,
+    height = 0.4,
+    anchor = "NW",
+  },
 })
 ```
+
 
